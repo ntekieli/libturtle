@@ -2,12 +2,12 @@ CC = clang
 CFLAGS = -fPIC -fcommon
 objects := $(patsubst %.c,%.o,$(wildcard *.c))
 
-targets := libembroidery.so
+targets := libembroidery.a
 
 all: ${targets}
 
-libembroidery.so: ${objects}
-	clang -shared -undefined dynamic_lookup -o libembroidery.so ${objects}
+libembroidery.a: ${objects}
+	ar r libembroidery.a ${objects}
 
 clean:
 	rm ${objects} ${targets}
