@@ -90,6 +90,10 @@ float Point::length() const {
     return sqrt(pow(x_, 2) + pow(y_, 2));
 }
 
+Point Point::normalize(float new_length) const {
+    return Point(x_ / length() * new_length, y_ / length() * new_length);
+}
+
 std::ostream& operator<<(std::ostream& os, const Point& p) {
     os << "Point(" << p.x_ << "," << p.y_ << ")";
     return os;

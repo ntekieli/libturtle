@@ -21,6 +21,7 @@ class Point {
     bool operator<=(const Point& other) const;
     float length() const;
     std::string tostr(int precision) const;
+    Point normalize(float new_length) const;
 
     friend std::ostream& operator<<(std::ostream& os, const Point& p);
     friend class Turtle;

@@ -94,7 +94,7 @@ Point Turtle::position() {
  */
 void Turtle::turntoward(const Point& pos) {
     Point delta = pos - position_;
-    dir_ = delta / delta.length();
+    dir_ = delta.normalize(1);
 }
 
 /** Turn to face `(x,y)`.
@@ -111,7 +111,7 @@ void Turtle::turntoward(const float x, const float y) {
  * the point `pos`.
  */
 void Turtle::setdir(const Point& pos) {
-    dir_ = pos / pos.length();
+    dir_ = pos.normalize(1);
 }
 
 /** Directly set the Turtle's direction.
