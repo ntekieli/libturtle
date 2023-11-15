@@ -40,6 +40,9 @@ class Turtle {
 
     friend std::ostream& operator<<(std::ostream& os, const Turtle& t);
 
+    void zigzag(const Point& start, const Point& end, float amplitude, float segmentLength);
+    void halfCircle(const Point& center, float radius, bool clockwise);
+
  private:
     void stitch(const Point& pos);
     void stitch_abs(const Point& pos);

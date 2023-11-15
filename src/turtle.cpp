@@ -471,3 +471,74 @@ void Turtle::svtree(float trunklength, int levels, float trunkwidth) {
 
 // End disabled functions
 */
+
+
+/* added functions */
+void Turtle::zigzag(const Point& start, const Point& end, float amplitude, float segmentLength) {
+    penup();
+    gotopoint(start);
+
+    // calc direction and distance from start to end
+    Point direction = (end - start).normalize(1);
+    float totalLength = (end - start).length();
+
+    int numSegments = int(totalLength / segmentLength);
+
+    if (numSegments % 2 == 0) {
+        numSegments--;
+    }
+    
+    // calc perpendicular direction
+    Point perpendicular(direction.y_, -direction.x_);
+
+    // draw zigzag here
+    pendown();
+    Point currentPos = start;
+    for (int i = 0; i < numSegments; ++i) {
+        if (i % 2 == 0) {
+            currentPos += (direction * segmentLength) + (perpendicular * amplitude);
+        } else {
+            currentPos += (direction * segmentLength) - (perpendicular * amplitude);
+        }
+
+        gotopoint(currentPos);
+    }
+
+    if (!(currentPos == end)) {
+        gotopoint(end);
+    }
+}
+
+void Turtle::halfCircle(const Point& center, float radius, bool clockwise) {
+    penup();
+
+    // calc the start and end angles for the semi circle
+    float startAngle = clockwise ? 0 : M_PI;
+    float endAngle = clockwise ? M_PI : 0;
+
+    // calc numberer of stitches to approximate semi circle
+    int numStitches = static_cast<int>(radius * M_PI / stepsize_);
+
+    float angleIncrement = (endAngle - startAngle) / (clockwise ? numStitches : -numStitches);
+
+    Point startPoint(center.x_ + radius * cos(startAngle), center.y_ + radius * sin(startAngle));
+
+    gotopoint(startPoint);
+    pendown();
+
+    for (int i = 1; i <= numStitches; ++i) {
+        float angle = startAngle + angleIncrement * i;
+        Point stitchPoint(center.x_ + radius * cos(angle), center.y_ + radius * sin(angle));
+
+        if (satin_is_on_) {
+            satin_stitch_to(stitchPoint);
+        } else {
+            stitch_to(stitchPoint);
+        }
+    }
+
+    penup();
+}
+
+
+
